@@ -12,18 +12,14 @@
         var self = this;
         var endpoint = 'https://graph.facebook.com/v2.5/';
         var limit = '400';
-
         function timeAgo(date) {
             var seconds = Math.floor((new Date() - new Date(date)) / 1000);
             interval = Math.floor(seconds / 86400);
-
             if (interval > 1) {
                 return interval;
             }
-
             return 0;
         }
-
         function listPosts() {
             $.getJSON(endpoint + groupid + '/feed?limit=' + limit + '&access_token=' + usertoken, function (data) {
                 $('#step1').hide();
@@ -34,22 +30,18 @@
                 });
             });
         }
-
         function determineFateOfPost(post) {
             var time = timeAgo(post.updated_time);
             var message = (post.message !== undefined) ? post.message : 'No text';
             message = message.substring(0, 100) + "..";
-
             if (time > days) {
                 addPostListing('delete', post.id, post.updated_time, message);
             } else {
                 addPostListing('save', post.id, post.updated_time, message);
             }
         }
-
         function addPostListing(state, id, time, text) {
             var row = "<tr><td>" + id + "</td><td>" + time + "</td><td>" + text + "</td></tr>";
-
             if (state === 'delete') {
                 $('#tableDelete > tbody:last-child').append(row);
                 deleteArray.push(id);
@@ -57,7 +49,6 @@
                 $('#tableSave > tbody:last-child').append(row);
             }
         }
-
         function deletePosts() {
             deleteArray.forEach(function (postid) {
                 $.ajax({
@@ -68,26 +59,27 @@
                 });
             });
         }
-
         $(document).ready(function () {
             self.deleteArray = [];
-
             self.usertoken = $('#uat').val();
             self.groupid = $('#gid').val();
             self.days = Math.floor($('#days option:selected').val());
-
             $('#days').change(function () {
                 self.days = $('#days option:selected').val();
             });
-
             $('#listPosts').click(function () {
                 listPosts();
             });
-
             $('#deleteNow').click(function () {
                 $('#step2').hide();
                 deletePosts();
             });
+			$('#uat').change(function () {
+				self.usertoken = this.value;
+			})
+			$('#gid').change(function () {
+				self.groupid = this.value;
+			})
         });
     </script>
 </head>
