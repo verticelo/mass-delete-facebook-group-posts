@@ -26,22 +26,23 @@
                 $('#step2').show();
                 console.log(data);
                 data.data.forEach(function (post) {
-                    determineFateOfPost(post);
+                    determineFateOfPost(post, groupid);
                 });
             });
         }
-        function determineFateOfPost(post) {
+        function determineFateOfPost(post, groupid) {
             var time = timeAgo(post.updated_time);
             var message = (post.message !== undefined) ? post.message : 'No text';
             message = message.substring(0, 100) + "..";
             if (time > days) {
-                addPostListing('delete', post.id, post.updated_time, message);
+                addPostListing('delete', post.id, post.updated_time, message, groupid);
             } else {
-                addPostListing('save', post.id, post.updated_time, message);
+                addPostListing('save', post.id, post.updated_time, message, groupid);
             }
         }
-        function addPostListing(state, id, time, text) {
-            var row = "<tr><td>" + id + "</td><td>" + time + "</td><td>" + text + "</td></tr>";
+        function addPostListing(state, id, time, text, groupid) {
+		var idsp = id.split('_')[1];
+            var row = "<tr><td>" + "<a href=https://www.facebook.com/groups/"+ groupid +"/permalink/" + idsp + ">" + idsp + "</td><td>" + time + "</td><td>" + text + "</td></tr>";
             if (state === 'delete') {
                 $('#tableDelete > tbody:last-child').append(row);
                 deleteArray.push(id);
@@ -98,6 +99,12 @@
     <select id="days" title="Days">
         <option value="60" selected="">60</option>
         <option>30</option>
+		  <option>6</option>
+		  <option>5</option>
+		  <option>4</option>
+		  <option>3</option>
+		  <option>2</option>
+		  <option>1</option>
         <option>0</option>
     </select>
 
