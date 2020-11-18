@@ -171,7 +171,7 @@ let main = async function () {
         console.table(postsToDelete, ["date", "author", "text"]);
 
         //deletePost(postsToDelete[1].node); // To delete a specific post, for testing only
-        await deletePosts(postsToDelete); // Uncomment to this to delete all posts other that HowManyRecentPostsToKeep first
+        //await deletePosts(postsToDelete); // Uncomment to this to delete all posts other that HowManyRecentPostsToKeep first
 
         await scrollToBottom(6);
         i++;
