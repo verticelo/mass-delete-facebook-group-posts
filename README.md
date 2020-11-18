@@ -1,4 +1,4 @@
-# fb-groups-delete-posts-older-than-x-days
+# Mass delete Facebook group posts
 This script allows you to delete posts, except X newest ones, in groups where you are an admin.
 
 #### Usage:
