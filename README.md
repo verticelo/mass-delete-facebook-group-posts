@@ -1,8 +1,8 @@
 # fb-groups-delete-posts-older-than-x-days
-This script allows you to delete posts older than X days in groups where you are an admin.
+This script allows you to delete posts, except X newest ones, in groups where you are an admin.
 
 #####Usage:
-Read the comments in the script
+Read the comments in the bottom of the script
 
 
 #####Pull requests:
