@@ -80,7 +80,7 @@ let deletePost = async function (domNode) {
     }
     
     if (removeButtons.length !== 1) {
-        console.error("Could not find Remove Post button");
+        console.error("Could not find Delete Post button");
         return true;
     }
 
@@ -93,12 +93,12 @@ let deletePost = async function (domNode) {
     let confirmDialogs = [];
     i = 0;
     while (confirmDialogs.length < 1) {
-        await delay(1000);
+        await delay(3000);
 
-        confirmDialogs = document.querySelectorAll("div[aria-label='Remove Post']");
+        confirmDialogs = document.querySelectorAll("[aria-label='Remove post']");
 
         i++;
-        if (i > 30) {
+        if (i > 1) {
             console.log("Breaking");
            break;
         }
@@ -109,7 +109,7 @@ let deletePost = async function (domNode) {
         return true;
     }
 
-    let confirmButton = confirmDialogs[0].querySelectorAll("div[aria-label='Confirm']");
+    let confirmButton = confirmDialogs[0].querySelectorAll("[aria-label='Confirm']");
 
     if (confirmButton.length !== 1) {
         console.error("Could not find Confirm button", confirmDialogs);
@@ -122,7 +122,7 @@ let deletePost = async function (domNode) {
 
     if (debug) console.log("Deleted successfully");
 
-    await delay(200);
+    await delay(3000);
 }
 
 let deletePosts = async function (posts) {
@@ -133,7 +133,7 @@ let deletePosts = async function (posts) {
         i++;
         console.log("Deleting post", post.date, post.author, "Completion:", (i*100/total) + "%");
         await deletePost(post.node);
-        await delay(1000);
+        await delay(3000);
     }
 };
 
@@ -141,13 +141,13 @@ let scrollToBottom = async function (times) {
     // Let's scroll to the bottom a few times to load some content
     for (let i = 0; i < times; i++) {
         window.scrollTo(0,document.body.scrollHeight);
-        await delay(1000);
+        await delay(3000);
         console.log("Scrolling", (i*100/times) + "%")
     }
 };
 
 let main = async function () {
-    let HowManyRecentPostsToKeep = 6;
+    let HowManyRecentPostsToKeep = 0;
 
     let run = true;
 
@@ -161,19 +161,19 @@ let main = async function () {
         
         let postsToDelete = filterFirstXPosts(c, HowManyRecentPostsToKeep);
 
-        if (postsToDelete.length < 1 || i > 50) {
+        if (postsToDelete.length < 1 || i > 50000) {
             console.log("Done, reached limit", postsToDelete.length, i);
             break;
         }
 
-        await delay(3000); // So you can see the keeping table quickly
+        await delay(8000); // So you can see the keeping table quickly
         
         console.table(postsToDelete, ["date", "author", "text"]);
 
         //deletePost(postsToDelete[1].node); // To delete a specific post, for testing only
-        //await deletePosts(postsToDelete); // Uncomment to this to delete all posts other that HowManyRecentPostsToKeep first
+        await deletePosts(postsToDelete); // Uncomment to this to delete all posts other that HowManyRecentPostsToKeep first
 
-        await scrollToBottom(6);
+        await scrollToBottom(0);
         i++;
     }
     
@@ -192,4 +192,3 @@ let main = async function () {
 // Monitor the script while running and restart the browser when it doesn't do any good any more, some posts can't be deleted via this script
 
 main();
-
